@@ -412,7 +412,6 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
      *
      * @return A new instance of fragment PhotoFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static PhotoFragment newInstance() {
         return new PhotoFragment();
     }
@@ -433,7 +432,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg"); // TODO use timestamp
     }
 
     @Override
