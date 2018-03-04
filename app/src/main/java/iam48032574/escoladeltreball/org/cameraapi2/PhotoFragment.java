@@ -902,6 +902,12 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
                 }
                 break;
             }
+            case R.id.switch_video: {
+                /*getActivity().getFragmentManager().beginTransaction()
+                        .replace(R.id.container, VideoFragment.newInstance())
+                        .commit();*/
+                break;
+            }
         }
     }
 
