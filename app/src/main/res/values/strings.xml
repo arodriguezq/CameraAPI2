@@ -10,4 +10,6 @@
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
     <string name="intro_message">blabla</string>
     <string name="record">sfd</string>
+    <string name="permission_request">permissionRequest</string>
+    <string name="stop">stopping</string>
 </resources>

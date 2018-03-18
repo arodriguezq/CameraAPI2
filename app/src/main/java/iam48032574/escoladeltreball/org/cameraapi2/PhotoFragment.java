@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+//import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
@@ -42,6 +42,8 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -70,6 +72,8 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
+    private static boolean flash;
+    private static ImageButton flash_ib;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -346,12 +350,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
     private void showToast(final String text) {
         final Activity activity = getActivity();
         if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
-                }
-            });
+            activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -428,7 +427,11 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         view.findViewById(R.id.picture).setOnClickListener(this);
         view.findViewById(R.id.info).setOnClickListener(this);
-        mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+        view.findViewById(R.id.switch_video).setOnClickListener(this);
+        view.findViewById(R.id.flash_changer).setOnClickListener(this);
+        mTextureView = view.findViewById(R.id.texture);
+        flash = true;
+        flash_ib = view.findViewById(R.id.flash_changer);
     }
 
     @Override
@@ -444,6 +447,8 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
     public void onResume() {
         super.onResume();
         startBackgroundThread();
+
+        checkFlashStatus();
 
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
@@ -461,6 +466,14 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
         closeCamera();
         stopBackgroundThread();
         super.onPause();
+    }
+
+    public void checkFlashStatus() {
+        if (flash) {
+            flash_ib.setImageDrawable(getResources().getDrawable(R.drawable.ic_flash_auto_white_36dp));
+        } else {
+            flash_ib.setImageDrawable(getResources().getDrawable(R.drawable.ic_flash_off_white_36dp));
+        }
     }
 
     private void requestCameraPermission() {
@@ -495,6 +508,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
         Activity activity = getActivity();
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         try {
+            assert manager != null;
             for (String cameraId : manager.getCameraIdList()) {
                 CameraCharacteristics characteristics
                         = manager.getCameraCharacteristics(cameraId);
@@ -614,6 +628,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
+            assert manager != null;
             manager.openCamera(mCameraId, mStateCallback, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -903,9 +918,15 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
                 break;
             }
             case R.id.switch_video: {
-                /*getActivity().getFragmentManager().beginTransaction()
+                closeCamera();
+                getActivity().getFragmentManager().beginTransaction()
                         .replace(R.id.container, VideoFragment.newInstance())
-                        .commit();*/
+                        .commit();
+                break;
+            }
+            case R.id.flash_changer: {
+                flash = !flash;
+                checkFlashStatus();
                 break;
             }
         }
@@ -1001,12 +1022,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
             final Activity activity = getActivity();
             return new AlertDialog.Builder(activity)
                     .setMessage(getArguments().getString(ARG_MESSAGE))
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            activity.finish();
-                        }
-                    })
+                    .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> activity.finish())
                     .create();
         }
 
@@ -1023,21 +1039,13 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
             final Fragment parent = getParentFragment();
             return new AlertDialog.Builder(getActivity())
                     .setMessage(R.string.request_permission)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                    REQUEST_CAMERA_PERMISSION);
-                        }
-                    })
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            REQUEST_CAMERA_PERMISSION))
                     .setNegativeButton(android.R.string.cancel,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Activity activity = parent.getActivity();
-                                    if (activity != null) {
-                                        activity.finish();
-                                    }
+                            (dialog, which) -> {
+                                Activity activity = parent.getActivity();
+                                if (activity != null) {
+                                    activity.finish();
                                 }
                             })
                     .create();
