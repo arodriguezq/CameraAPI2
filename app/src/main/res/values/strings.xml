@@ -1,15 +1,14 @@
 <resources>
     <string name="app_name">CameraAPI2</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="picture">Picture</string>
-    <string name="description_info">Info</string>
-    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="description_info">Description</string>
+    <string name="request_permission">This app need camera, microphone and storage permissions.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
-    <string name="intro_message">blabla</string>
+    <string name="intro_message">
+        This application has been created by the great Aitor.
+        Using this application you can take photos and videos in a simple way.\n\nEnjoy It! :D
+    </string>
     <string name="record">sfd</string>
     <string name="permission_request">permissionRequest</string>
-    <string name="stop">stopping</string>
+    <string name="stop">Stop record</string>
 </resources>

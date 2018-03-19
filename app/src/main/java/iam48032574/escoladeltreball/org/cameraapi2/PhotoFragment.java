@@ -480,7 +480,8 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
         if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) && shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
         } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, REQUEST_CAMERA_PERMISSION);
         }
     }
 
@@ -1039,7 +1040,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
             final Fragment parent = getParentFragment();
             return new AlertDialog.Builder(getActivity())
                     .setMessage(R.string.request_permission)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> parent.requestPermissions(new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO},
                             REQUEST_CAMERA_PERMISSION))
                     .setNegativeButton(android.R.string.cancel,
                             (dialog, which) -> {
