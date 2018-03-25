@@ -45,7 +45,7 @@ D'altra banda, si el que es dessitja es tornar a la pantalla de captura d'imatge
 ### Aclaracions
 L'aplicació pren les imatges i vídeos respectant la relació d'aspecte tant en posició vertical com horitzonal. No té zoom ni bloqueig del focus ni el flash com tampoc pot deshabilitar el silenci en la grabació de vídeo. Un 7?
 
-License
+Llicència
 -------
 
 Licensed to the Apache Software Foundation (ASF) under one or more contributor
