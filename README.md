@@ -43,10 +43,19 @@ De la mateixa manera que amb la pantalla de fotos, en la pantalla de vídeos, pe
 D'altra banda, si el que es dessitja es tornar a la pantalla de captura d'imatges és tan fàcil com polsar el botó de l'esquerra amb forma de càmera de fotos.
 
 ### Aclaracions
-L'aplicació pren les imatges i vídeos respectant la relació d'aspecte tant en posició vertical com horitzonal. No té zoom ni bloqueig del focus ni el flash com tampoc pot deshabilitar el silenci en la grabació de vídeo. Un 7?
+L'aplicació pren les imatges i vídeos respectant la relació d'aspecte tant en posició vertical com horitzonal. No té zoom ni bloqueig del focus ni el flash com tampoc pot deshabilitar el silenci en la grabació de vídeo.  
+
+Per resoldre dubtes: -Un 7?-
+- Sol·licitut de permissos: PhotoFragment.java L:625
+- Nom d'imatge dinàmic: PhotoFragment.java L:947
+- Funcionalitat dels botons: PhotoFragment L:909
+
+- Nom de vídeo dinàmic: VideoFragment.java L:613
+- Funcionalitat dels botons: VideoFragment.java L:306
 
 Llicència
 -------
+Per herència de Google Samples.  
 
 Licensed to the Apache Software Foundation (ASF) under one or more contributor
 license agreements.  See the NOTICE file distributed with this work for
