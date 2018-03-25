@@ -24,6 +24,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
@@ -276,6 +277,11 @@ public class VideoFragment extends Fragment
         mButtonVideo = (ImageButton) view.findViewById(R.id.video);
         mButtonVideo.setOnClickListener(this);
         view.findViewById(R.id.info).setOnClickListener(this);
+        view.findViewById(R.id.switch_photo).setOnClickListener(this);
+
+        Log.v("XVP", "start VideoFragment");
+        CameraActivity activity = (CameraActivity) getActivity();
+        activity.setOnVideo(true);
     }
 
     @Override
@@ -305,6 +311,15 @@ public class VideoFragment extends Fragment
                 } else {
                     startRecordingVideo();
                 }
+                break;
+            }
+            case R.id.switch_photo: {
+                CameraActivity activity = (CameraActivity) getActivity();
+                closeCamera();
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, PhotoFragment.newInstance())
+                        .commit();
+                Log.v("XVP", "switch");
                 break;
             }
             case R.id.info: {
@@ -596,7 +611,10 @@ public class VideoFragment extends Fragment
     }
 
     private String getVideoFilePath(Context context) {
-        final File dir = context.getExternalFilesDir(null);
+        final File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/CameraAPI2");
+        if (!dir.mkdirs()) {
+            Log.e(TAG, "Directory not created");
+        }
         return (dir == null ? "" : (dir.getAbsolutePath() + "/"))
                 + System.currentTimeMillis() + ".mp4";
     }

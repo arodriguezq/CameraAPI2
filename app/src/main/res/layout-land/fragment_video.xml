@@ -30,7 +30,7 @@
             android:background="@color/control_background"
             android:contentDescription="@string/description_info"
             android:padding="20dp"
-            android:src="@drawable/ic_action_info" />
+            android:src="@drawable/ic_mic_white_36dp" />
     </FrameLayout>
 
     <iam48032574.escoladeltreball.org.cameraapi2.AutoFitTextureView
@@ -60,13 +60,13 @@
             android:src="@drawable/ic_fiber_manual_record_black_48dp" />
 
         <ImageButton
-            android:id="@+id/switch_video"
+            android:id="@+id/switch_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="40dp"
             android:background="@color/control_background"
-            android:src="@drawable/ic_switch_video_white_36dp" />
+            android:src="@drawable/ic_switch_camera_white_36dp" />
     </FrameLayout>
 
 </RelativeLayout>

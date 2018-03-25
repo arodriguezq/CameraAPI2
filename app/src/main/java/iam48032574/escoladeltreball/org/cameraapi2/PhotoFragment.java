@@ -432,6 +432,10 @@ public class PhotoFragment extends Fragment implements View.OnClickListener, Act
         mTextureView = view.findViewById(R.id.texture);
         flash = true;
         flash_ib = view.findViewById(R.id.flash_changer);
+
+        Log.v("XVP", "start photoFragment");
+        CameraActivity activity = (CameraActivity) getActivity();
+        activity.setOnVideo(false);
     }
 
     @Override
