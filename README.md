@@ -9,7 +9,7 @@ Aplicació destinada a l'entendiment de la [Camera API 2](https://developer.andr
 Utilitzant Android Studio 3.0 o superior descàrregar el projecte en local, ja sigui directament amb clone o fen prèviament fork. El projecte incorpora tot lo necessari per funcionar en qualsevol dispositiu amb Android API 21 o superior.  
 És possible que en la primera execució aparegui un error relacionat amd l'Android SDK. En aques cas assegurar-se que la `compileSdkVersion` i la `buildToolsVersion` de l'arxiu Gradle siguin de la mateixa versió:
 
-```xml
+```gradle
 android {
     compileSdkVersion 26
     defaultConfig {
